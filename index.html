@@ -1,0 +1,193 @@
+<html><head><base href="https://websim.io/art-question-helper/">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>お願い、ヘルプ！ART Question</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Kosugi+Maru&display=swap');
+
+    body {
+        font-family: 'Kosugi Maru', sans-serif;
+        background-color: #e6ffe6;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+    .container {
+        width: 400px;
+        background-color: white;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+    .frame {
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+        border: 20px solid #4CAF50;
+        border-radius: 25px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        z-index: -1;
+    }
+    h1 {
+        font-family: 'Fredoka One', cursive;
+        color: #ff69b4;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        letter-spacing: 1px;
+        line-height: 1.2;
+    }
+    .question-form {
+        display: flex;
+        margin-bottom: 15px;
+    }
+    #question-input {
+        flex-grow: 1;
+        padding: 8px;
+        font-size: 14px;
+        border: 2px solid #ff69b4;
+        border-radius: 5px 0 0 5px;
+    }
+    #submit-question {
+        padding: 8px 15px;
+        font-size: 14px;
+        background-color: #ff69b4;
+        color: white;
+        border: none;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    #submit-question:hover {
+        background-color: #ff1493;
+    }
+    .chat-area {
+        background-color: #ffe6f2;
+        border-radius: 10px;
+        padding: 15px;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    .message {
+        margin-bottom: 10px;
+        padding: 8px;
+        border-radius: 8px;
+        max-width: 80%;
+        font-size: 14px;
+    }
+    .user-message {
+        background-color: #ffc0cb;
+        align-self: flex-end;
+        margin-left: auto;
+    }
+    .assistant-message {
+        background-color: #ffffff;
+        align-self: flex-start;
+        margin-right: auto;
+    }
+    .flower-garden {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 15px;
+    }
+    .flower {
+        width: 60px;
+        height: 60px;
+    }
+    a {
+        color: #ff69b4;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="frame"></div>
+    <h1>お願い、ヘルプ！<br>ART Question</h1>
+    <div class="question-form">
+        <input type="text" id="question-input" placeholder="美術の質問を入力してください...">
+        <button id="submit-question">質問</button>
+    </div>
+    <div class="chat-area" id="chat-area"></div>
+    <div class="flower-garden">
+        <svg class="flower" viewBox="0 0 100 100">
+            <path d="M50 90 C20 90 20 50 50 50 C80 50 80 90 50 90" fill="#FF69B4"/>
+            <path d="M50 90 C80 90 80 50 50 50 C20 50 20 90 50 90" fill="#FF1493"/>
+            <circle cx="50" cy="50" r="10" fill="#FFD700"/>
+        </svg>
+        <svg class="flower" viewBox="0 0 100 100">
+            <path d="M50 90 C20 90 20 50 50 50 C80 50 80 90 50 90" fill="#87CEEB"/>
+            <path d="M50 90 C80 90 80 50 50 50 C20 50 20 90 50 90" fill="#4169E1"/>
+            <circle cx="50" cy="50" r="10" fill="#FFD700"/>
+        </svg>
+        <svg class="flower" viewBox="0 0 100 100">
+            <path d="M50 90 C20 90 20 50 50 50 C80 50 80 90 50 90" fill="#98FB98"/>
+            <path d="M50 90 C80 90 80 50 50 50 C20 50 20 90 50 90" fill="#32CD32"/>
+            <circle cx="50" cy="50" r="10" fill="#FFD700"/>
+        </svg>
+    </div>
+</div>
+
+<script>
+const chatArea = document.getElementById('chat-area');
+const questionInput = document.getElementById('question-input');
+const submitButton = document.getElementById('submit-question');
+
+function addMessage(content, isUser) {
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message');
+    messageDiv.classList.add(isUser ? 'user-message' : 'assistant-message');
+    messageDiv.innerHTML = content;
+    chatArea.appendChild(messageDiv);
+    chatArea.scrollTop = chatArea.scrollHeight;
+}
+
+function getArtAnswer(question) {
+    const answers = {
+        "鉛筆の使い方": "鉛筆の使い方は奥が深くて面白いですよ！基本的には、軽く持って、腕全体を使って描くのがコツです。硬さの違う鉛筆を使い分けることで、線の濃さや質感を変えられます。例えば、Hは薄い線、Bは濃い線に適しています。また、鉛筆の角度を変えることで、線の太さや濃さを調整できます。<br><br>実際の技法を見てみたい方には、こちらのYouTube動画がおすすめです：<br><a href='https://www.youtube.com/watch?v=0CrxQpZEZtM' target='_blank'>鉛筆デッサンの基本テクニック</a><br>この動画では、様々な線の引き方や陰影の付け方が丁寧に解説されています。実際に見て真似してみると、理解が深まりますよ。",
+
+        "水彩画の技法": "水彩画には多様な技法があり、それぞれ独特の魅力がありますね。例えば、にじみ技法は水の量を調整して色と色を自然に混ぜる方法で、柔らかい印象を作り出せます。また、ドライブラシ技法は、筆に含ませる水の量を少なくして、表面のテクスチャーを活かした描き方です。<br><br>これらの技法をより詳しく学びたい方には、次のYouTube動画がおすすめです：<br><a href='https://www.youtube.com/watch?v=TcxZFfjfz0M' target='_blank'>水彩画テクニック10選</a><br>この動画では、様々な水彩技法が実演付きで紹介されています。実際に見て手を動かしながら練習すると、技術の向上に役立ちますよ。",
+
+        "デッサン": "デッサンは形や立体感、質感を表現する基本的な技術です。対象をよく観察し、形の取り方、線の強弱、陰影の付け方などを工夫することが大切です。例えば、輪郭線だけでなく、物体の内部の構造線も意識して描くと立体感が出ます。<br><br>デッサンの基礎を学びたい方には、こちらのYouTube動画がおすすめです：<br><a href='https://www.youtube.com/watch?v=BQ43sj3MACY' target='_blank'>デッサンの基本＆コツ</a><br>この動画では、デッサンの基本的な考え方や技法が丁寧に解説されています。実際に描きながら動画を見ることで、より理解が深まりますよ。",
+
+        "色彩": "色彩は作品の印象を大きく左右する重要な要素です。色相（色合い）、明度（明るさ）、彩度（鮮やかさ）を意識して使うことで、豊かな表現が可能になります。例えば、補色を使うとお互いの色が引き立ち、鮮やかな印象になります。<br><br>色彩理論や配色テクニックをもっと学びたい方には、次のYouTube動画がおすすめです：<br><a href='https://www.youtube.com/watch?v=rSqLCOtomhY' target='_blank'>色彩の基礎知識</a><br>この動画では、色相環の使い方や配色のコツなどが分かりやすく解説されています。実際に色を塗りながら視聴すると、理解が深まりますよ。"
+    };
+
+    for (let key in answers) {
+        if (question.toLowerCase().includes(key.toLowerCase())) {
+            return answers[key];
+        }
+    }
+
+    return "その質問については、具体的な答えを見つけるのが難しいですね。美術の学習では、自分で試行錯誤することがとても大切です。教科書やオンライン資料を参考にしながら、実際に手を動かして様々な技法を試してみてください。<br><br>また、YouTubeなどの動画サイトでは、多くのアーティストや美術教育者が無料で技法や知識を共有しています。例えば、<a href='https://www.youtube.com/results?search_query=%E7%BE%8E%E8%A1%93+%E6%8A%80%E6%B3%95' target='_blank'>「美術 技法」で検索</a>すると、様々な有益な動画が見つかりますよ。<br><br>美術の先生や友達と意見交換するのも良いアイデアです。みんなで話し合うことで、新しい発見や理解が深まることがあります。美術は個人の感性を大切にしながら、多様な知識や経験を積み重ねていくことで上達していきます。焦らず、楽しみながら取り組んでみてください！";
+}
+
+function handleQuestion() {
+    const question = questionInput.value.trim();
+    if (question) {
+        addMessage(question, true);
+        const answer = getArtAnswer(question);
+        setTimeout(() => addMessage(answer, false), 1000);
+        questionInput.value = '';
+    }
+}
+
+submitButton.addEventListener('click', handleQuestion);
+questionInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        handleQuestion();
+    }
+});
+</script>
+</body>
+</html>
